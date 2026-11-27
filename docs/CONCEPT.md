@@ -41,7 +41,7 @@ This hits the judging criteria directly: usefulness specifically on glasses (30%
 |---|---|---|
 | Account access | **Telegram Business bot** | Official, user grants limited rights, no phone-number login, sees private chats (regular bots don't) |
 | Bot library | **grammY** | Modern, TypeScript, supports Business API |
-| Repository | **Monorepo**: `bot/`, `core/`, `glasses/` | One link for submission and portfolio |
+| Repository | **Monorepo**: `apps/server`, `apps/glasses`, `packages/protocol` | One link for submission and portfolio |
 | Storage | **SQLite** (better-sqlite3) | Already in use for users; survives restarts |
 | Backend | **Own Node.js server**, bot + WebSocket in one process | Only it can keep a live connection to the glasses; splitting into processes is postponed until after the hackathon |
 | Telegram updates | **Long polling** | Webhook (one domain with `/bot` and `/ws`) after the MVP |

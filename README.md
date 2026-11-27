@@ -58,29 +58,27 @@ The **knowledge base** is what the agent knows about you: working hours, prices,
 ## Architecture
 
 ```
-Telegram ──▶ legacy/bot (grammY, Business bot) ──▶ legacy/server (WebSocket, queue, AI agent) ◀──▶ apps/glasses (G2 app + phone app)
-                                                        │
-                                                        ▼
-                                                   OpenAI API
+Telegram ◀──▶ apps/server (one Node.js process) ◀──WebSocket──▶ apps/glasses (G2 app + phone app)
+                   │            │
+                   ▼            ▼
+              OpenAI API     SQLite
 ```
 
-- **`apps/server/legacy/bot`** receives `business_message` updates from the chats you allowed and sends replies on your behalf through the Business connection.
-- **`apps/server/legacy/server`** groups messages into bursts, keeps a queue per owner, calls OpenAI for summaries, reply options and Secretary Mode decisions, and transcribes voice replies.
+- **`apps/server`** is one process: the Telegram Business bot (grammY), the inbox that groups messages into bursts, the secretary (Secretary Mode, knowledge base, log), the OpenAI calls (summaries, reply options, drafts, speech-to-text) and the WebSocket server for the glasses. State is kept in SQLite.
 - **`apps/glasses`** is the Even Hub web app: the glasses UI and the phone app with pairing, Secretary Mode and the knowledge base.
+- **`packages/protocol`** is the contract between the glasses and the server: message types and their validation.
 
-The server is being restructured into a modular monolith in `apps/server/src` (see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)); `packages/protocol` holds the contract between the glasses and the server.
-
-Stack: TypeScript, Node.js, grammY, Even Hub SDK, OpenAI API (`gpt-6-luna` for the agent, `gpt-transcribe` for speech-to-text), Vite.
+Stack: TypeScript, Node.js, grammY, SQLite (better-sqlite3), Even Hub SDK, OpenAI API (`gpt-6-luna` for the agent, `gpt-transcribe` for speech-to-text), Vite, zod, Vitest.
 
 ## Privacy and data
 
 - Vyrse has no access to your Telegram account. It works as a Telegram Business bot, and you choose in Telegram which chats it may read. You can change this or disconnect the bot at any time.
 - Only incoming messages from the chats you selected are read. They are sent to the OpenAI API to get a summary and reply suggestions. Voice replies are also sent to the OpenAI API for transcription.
-- In this prototype, data is kept in memory on the server. A production version will move it to a proper database.
+- Messages, the knowledge base and the secretary's log are stored in a local SQLite file on the server (`DB_PATH`).
 
 ## Setup
 
-Requirements: Node.js 22, pnpm 12, a Telegram bot token from [@BotFather](https://t.me/BotFather), an OpenAI API key.
+Requirements: Node.js 24 (see `.nvmrc`), pnpm 12, a Telegram bot token from [@BotFather](https://t.me/BotFather), an OpenAI API key.
 
 1. Install dependencies:
 
@@ -93,22 +91,17 @@ Requirements: Node.js 22, pnpm 12, a Telegram bot token from [@BotFather](https:
    | Variable | Meaning |
    |---|---|
    | `BOT_TOKEN` | Telegram bot token |
-   | `WS_PORT` | Server port (default `8080`) |
-   | `WS_URL` | Server address for the bot (default `ws://localhost:8080`) |
-   | `WS_CONNECTION_SECRET` | Shared secret for connections to the server |
+   | `WS_PORT` | Port the glasses connect to (default `8080`) |
    | `BATCH_SILENCE_SEC` | Seconds of silence before a burst of messages goes to the AI (default `10`) |
+   | `DB_PATH` | SQLite file, relative to the repo root (default `data/vyrse.db`) |
    | `OPENAI_API_KEY` | OpenAI API key |
    | `OPENAI_MODEL` | Model for the agent (default `gpt-6-luna`) |
    | `OPENAI_TRANSCRIBE_MODEL` | Model for voice replies (default `gpt-transcribe`) |
 
-3. Start the server, the bot and the app (each in its own terminal):
+3. Start the server (with the bot) and the app, each in its own terminal:
 
    ```bash
    pnpm dev:server
-   ```
-
-   ```bash
-   pnpm dev:bot
    ```
 
    ```bash

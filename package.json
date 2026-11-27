@@ -4,9 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev:server": "pnpm --filter @vyrse/server dev:legacy-server",
-    "dev:bot": "pnpm --filter @vyrse/server dev:legacy-bot",
-    "dev:next": "pnpm --filter @vyrse/server dev",
+    "dev:server": "pnpm --filter @vyrse/server dev",
     "dev:glasses": "pnpm --filter @vyrse/glasses dev",
     "build:glasses": "pnpm --filter @vyrse/glasses build",
     "sim": "pnpm --filter @vyrse/glasses sim",

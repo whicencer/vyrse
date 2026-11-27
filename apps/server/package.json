@@ -6,13 +6,12 @@
   "scripts": {
     "dev": "tsx watch src/main.ts",
     "start": "tsx src/main.ts",
-    "dev:legacy-server": "cd ../.. && tsx watch apps/server/legacy/server/server.ts",
-    "dev:legacy-bot": "cd ../.. && tsx watch apps/server/legacy/bot/bot.ts",
-    "typecheck": "tsc --noEmit && tsc --noEmit -p legacy",
+    "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
     "@vyrse/protocol": "workspace:*",
+    "better-sqlite3": "^13.2.0",
     "dotenv": "^18.0.10",
     "grammy": "^1.48.0",
     "openai": "^7.65.0",
@@ -20,6 +19,7 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0",
     "@types/node": "^26.6.11",
     "@types/ws": "^8.18.2",
     "tsx": "^4.23.15",

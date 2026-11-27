@@ -2,9 +2,10 @@ import path from "node:path";
 import dotenv from "dotenv";
 import { z } from "zod";
 
-// The only place that reads process.env. Everything else gets a typed Config.
+// The only place that reads process.env. Everything else imports the typed `config`.
 // The .env file is shared by all apps and lives in the repo root.
-dotenv.config({ path: path.resolve(import.meta.dirname, "../../../.env"), quiet: true });
+const ROOT = path.resolve(import.meta.dirname, "../../..");
+dotenv.config({ path: path.join(ROOT, ".env"), quiet: true });
 
 const schema = z.object({
   WS_PORT: z.coerce.number().int().positive().default(8080),
@@ -13,6 +14,8 @@ const schema = z.object({
   OPENAI_MODEL: z.string().default("gpt-6-luna"),
   OPENAI_TRANSCRIBE_MODEL: z.string().default("gpt-transcribe"),
   BATCH_SILENCE_SEC: z.coerce.number().positive().default(10),
+  // Relative paths are resolved from the repo root.
+  DB_PATH: z.string().default("data/vyrse.db"),
 });
 
 export type Config = {
@@ -20,9 +23,10 @@ export type Config = {
   telegram: { botToken: string };
   openai: { apiKey: string; model: string; transcribeModel: string };
   inbox: { silenceMs: number };
+  dbPath: string;
 };
 
-export function loadConfig(): Config {
+function loadConfig(): Config {
   const parsed = schema.safeParse(process.env);
   if (!parsed.success) {
     const problems = parsed.error.issues.map((i) => `  ${i.path.join(".")}: ${i.message}`).join("\n");
@@ -34,5 +38,8 @@ export function loadConfig(): Config {
     telegram: { botToken: env.BOT_TOKEN },
     openai: { apiKey: env.OPENAI_API_KEY, model: env.OPENAI_MODEL, transcribeModel: env.OPENAI_TRANSCRIBE_MODEL },
     inbox: { silenceMs: env.BATCH_SILENCE_SEC * 1000 },
+    dbPath: env.DB_PATH === ":memory:" ? env.DB_PATH : path.resolve(ROOT, env.DB_PATH),
   };
 }
+
+export const config = loadConfig();

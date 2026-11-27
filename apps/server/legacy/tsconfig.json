@@ -1,6 +1,0 @@
-{
-  "extends": "../tsconfig.json",
-  // Old code, kept running until the new server replaces it; not held to the stricter checks.
-  "compilerOptions": { "noUncheckedIndexedAccess": false },
-  "include": ["."]
-}

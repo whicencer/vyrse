@@ -15,6 +15,7 @@ data
 # Private notes
 HACKATHON.md
 .backup
+/docs/ARCHITECTURE.md
 
 # Logs
 *.log

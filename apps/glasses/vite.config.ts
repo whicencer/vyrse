@@ -1,14 +1,7 @@
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 
-export default defineConfig(({ mode }) => {
-  // The shared .env lives in the repo root, two levels above the app.
-  const env = loadEnv(mode, `${import.meta.dirname}/../..`, '');
-
-  return {
-    root: import.meta.dirname,
-    // Baked into the bundle: anyone who has the app build can read it.
-    define: { __WS_CONNECTION_SECRET__: JSON.stringify(env.WS_CONNECTION_SECRET ?? '') },
-    build: { outDir: 'dist', emptyOutDir: true, target: 'es2022' },
-    server: { host: true, port: 5173 },
-  };
+export default defineConfig({
+  root: import.meta.dirname,
+  build: { outDir: 'dist', emptyOutDir: true, target: 'es2022' },
+  server: { host: true, port: 5173 },
 });
