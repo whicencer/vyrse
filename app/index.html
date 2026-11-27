@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Vyrse</title>
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 48 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+            <circle cx="12" cy="13" r="8" />
+            <circle cx="36" cy="13" r="8" />
+            <path d="M20 12c1.5-2 6.5-2 8 0" />
+          </svg>
+        </div>
+        <h1>Vyrse</h1>
+        <p class="tagline">Your Telegram secretary on Even G2</p>
+        <div class="status" id="status" data-state="connecting">
+          <span class="dot"></span>
+          <span id="status-text">Connecting…</span>
+        </div>
+      </header>
+
+      <section class="card pair">
+        <div>
+          <h2>Glasses</h2>
+          <p class="pair-text" id="pair-state">Not paired with Telegram yet</p>
+        </div>
+        <button class="button" id="pair-button" type="button">Pair glasses</button>
+      </section>
+
+      <section class="card">
+        <label class="switch-row">
+          <span>
+            <b>Secretary mode</b>
+            <span class="mode-text" id="mode-text">Off: every message shows up on your glasses.</span>
+          </span>
+          <input class="switch" id="mode-switch" type="checkbox" role="switch" />
+        </label>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Knowledge base</h2>
+          <span class="count" id="kb-count" hidden></span>
+        </div>
+        <p class="kb-hint">Facts the secretary may share on its own: hours, address, prices, links.</p>
+        <ul class="kb-list" id="kb-list"></ul>
+        <p class="kb-empty" id="kb-empty">No facts yet.</p>
+        <form class="kb-form" id="kb-form">
+          <input id="kb-input" type="text" maxlength="500" autocomplete="off" placeholder="e.g. Working hours: Mon–Fri, 10–19" />
+          <button class="button" type="submit">Add</button>
+        </form>
+      </section>
+
+      <section class="card pair">
+        <div>
+          <h2>Demo</h2>
+          <p class="pair-text">Scripted chats with a sample knowledge base</p>
+        </div>
+        <button class="button" id="demo-button" type="button">Run demo</button>
+      </section>
+
+      <section class="card">
+        <h2>How it works</h2>
+        <ol class="steps">
+          <li>
+            <b>Connect the bot</b>
+            <span>Profile → Edit → Chat Automation → @VyrseBot → choose the chats it handles</span>
+          </li>
+          <li>
+            <b>Keep this app open</b>
+            <span>New messages appear on your glasses as one card</span>
+          </li>
+          <li>
+            <b>Reply with a tap</b>
+            <span>The answer is sent from your own account</span>
+          </li>
+        </ol>
+      </section>
+    </main>
+
+    <dialog class="sheet" id="pair-dialog">
+      <form method="dialog" class="sheet-close-form">
+        <button class="sheet-close" aria-label="Close">×</button>
+      </form>
+      <h3>Pair your glasses</h3>
+      <p class="sheet-sub">Send this command to <a id="pair-bot-link" target="_blank" rel="noopener"></a></p>
+
+      <div class="code" id="pair-code" aria-live="polite">······</div>
+
+      <button class="command" id="pair-command" type="button">
+        <code id="pair-command-text"></code>
+        <span id="pair-copy-label">Copy</span>
+      </button>
+
+      <p class="sheet-foot" id="pair-expiry"></p>
+      <button class="button button-ghost" id="pair-renew" type="button" hidden>Get a new code</button>
+    </dialog>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

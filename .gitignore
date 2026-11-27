@@ -1,0 +1,31 @@
+# Dependencies and build output
+node_modules
+dist
+*.ehpk
+*.tsbuildinfo
+
+# Secrets: only the example is committed
+.env
+.env.*
+!.env.example
+
+# Runtime data (pairing tokens, local database)
+data
+
+# Private notes
+HACKATHON.md
+.backup
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Editors and OS
+.DS_Store
+.vscode
+.idea
+*.swp
+
+# Local Claude Code settings
+.claude/settings.local.json
