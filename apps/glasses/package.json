@@ -1,0 +1,24 @@
+{
+  "name": "@vyrse/glasses",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "sim": "evenhub-simulator http://localhost:5173",
+    "qr": "evenhub qr --port 5173",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@evenrealities/even_hub_sdk": "^0.0.16",
+    "@vyrse/protocol": "workspace:*"
+  },
+  "devDependencies": {
+    "@evenrealities/evenhub-cli": "^0.2.0",
+    "@evenrealities/evenhub-simulator": "^0.9.5",
+    "vite": "^8.4.0",
+    "vitest": "^5.1.2"
+  }
+}

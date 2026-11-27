@@ -58,15 +58,17 @@ The **knowledge base** is what the agent knows about you: working hours, prices,
 ## Architecture
 
 ```
-Telegram ──▶ bot/ (grammY, Business bot) ──▶ server/ (WebSocket, queue, AI agent) ◀──▶ app/ (G2 app + phone app)
+Telegram ──▶ legacy/bot (grammY, Business bot) ──▶ legacy/server (WebSocket, queue, AI agent) ◀──▶ apps/glasses (G2 app + phone app)
                                                         │
                                                         ▼
                                                    OpenAI API
 ```
 
-- **`bot/`** receives `business_message` updates from the chats you allowed and sends replies on your behalf through the Business connection.
-- **`server/`** groups messages into bursts, keeps a queue per owner, calls OpenAI for summaries, reply options and Secretary Mode decisions, and transcribes voice replies.
-- **`app/`** is the Even Hub web app: the glasses UI and the phone app with pairing, Secretary Mode and the knowledge base.
+- **`apps/server/legacy/bot`** receives `business_message` updates from the chats you allowed and sends replies on your behalf through the Business connection.
+- **`apps/server/legacy/server`** groups messages into bursts, keeps a queue per owner, calls OpenAI for summaries, reply options and Secretary Mode decisions, and transcribes voice replies.
+- **`apps/glasses`** is the Even Hub web app: the glasses UI and the phone app with pairing, Secretary Mode and the knowledge base.
+
+The server is being restructured into a modular monolith in `apps/server/src` (see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)); `packages/protocol` holds the contract between the glasses and the server.
 
 Stack: TypeScript, Node.js, grammY, Even Hub SDK, OpenAI API (`gpt-6-luna` for the agent, `gpt-transcribe` for speech-to-text), Vite.
 
