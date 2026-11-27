@@ -4,9 +4,7 @@ An AI secretary for your private Telegram chats, on Even Realities G2.
 
 Vyrse reads incoming messages from the private chats you choose, sums them up on your glasses and suggests short replies. Pick one with a tap or dictate your own. With **Secretary Mode** on, Vyrse answers routine messages by itself from what it knows about you, and only the messages that need you reach the glasses.
 
-**Demo video:** [link to the video]
-
-**Screenshots:** [screenshots]
+**Demo video:** https://www.youtube.com/watch?v=nK9bK1EQ92g
 
 **Track:** Messaging & News · AI · Best Telegram integration
 
