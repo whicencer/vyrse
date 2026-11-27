@@ -96,7 +96,7 @@ Stack: TypeScript, Node.js, grammY, SQLite (better-sqlite3), Even Hub SDK, OpenA
 
 ## Setup
 
-Requirements: Node.js 24 (see `.nvmrc`), pnpm 12, a Telegram bot token from [@BotFather](https://t.me/BotFather), an OpenAI API key.
+Requirements: Node.js 24, pnpm 12, a Telegram bot token from [@BotFather](https://t.me/BotFather), an OpenAI API key.
 
 1. Install dependencies:
 
